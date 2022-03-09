@@ -22,9 +22,9 @@
 #define MIDI_ADVANCED
 
 #define RGB_DI_PIN B9
-#define DRIVER_LED_TOTAL 15
 #ifdef RGB_DI_PIN
 //   #define LED_MATRIX_CENTER { 112, 32 }
+  #define DRIVER_LED_TOTAL 15
   #define RGBLED_NUM 15
   #define RGBLIGHT_HUE_STEP 8
   #define RGBLIGHT_SAT_STEP 8
@@ -35,6 +35,7 @@
   #define RGBLIGHT_ANIMATIONS
   #define RGB_MATRIX_FRAMEBUFFER_EFFECTS
   #define RGB_MATRIX_KEYPRESSES
+  #define WS2812_BYTE_ORDER 1 //WS2812_BYTE_ORDER_GRB
 #endif
 
 /* Debounce reduces chatter (unintended double-presses) - set 0 if debouncing is not needed */

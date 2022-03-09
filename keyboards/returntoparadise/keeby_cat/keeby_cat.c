@@ -1,7 +1,6 @@
 /* SPDX-License-Identifier: GPL-2.0-or-later */
 
 #include "keeby_cat.h"
-//NO_LED
 
 led_config_t g_led_config = { {
   // Key Matrix to LED Index
