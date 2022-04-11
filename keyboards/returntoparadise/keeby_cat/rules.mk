@@ -22,7 +22,7 @@ AUDIO_ENABLE = no           # Audio output on port C6
 FAUXCLICKY_ENABLE = no      # Use buzzer to emulate clicky switches
 RGBLIGHT_ENABLE = no        # RGB underglow
 RGB_MATRIX_ENABLE = yes     # RGB key lights
-RGB_MATRIX_DRIVER = WS2812
+RGB_MATRIX_DRIVER = WS2812  # RGB LED driver
 TAP_DANCE_ENABLE = yes
 
 # Enter lower-power sleep mode when on the ChibiOS idle thread
