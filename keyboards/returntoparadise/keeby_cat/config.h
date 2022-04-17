@@ -11,20 +11,21 @@
 
 /* key matrix size */
 #define MATRIX_ROWS 1
-#define MATRIX_COLS 15
+#define MATRIX_COLS 13
 
 /* Keyboard Matrix Assignments */
-#define DIRECT_PINS {{ B12, B7, B6, B13, B14, B15, A8, A9, A10, A15, B3, B4, A2, A1, A0 }}
+// #define DIRECT_PINS {{ B12, B7, B6, B13, B14, B15, A8, A9, A10, A15, B3, B4, A2, A1, A0 }}
+#define DIRECT_PINS {{ B12, B13, B14, B15, A8, A9, A10, A15, B3, B4, A2, A1, A0 }}
 
-// #define ENCODERS_PAD_A {  }
-// #define ENCODERS_PAD_B {  }
+#define ENCODERS_PAD_A { B11 }
+#define ENCODERS_PAD_B { B10 }
 
 #define MIDI_ADVANCED
 
 #define RGB_DI_PIN B9
 #ifdef RGB_DI_PIN
 //   #define LED_MATRIX_CENTER { 112, 32 }
-  #define DRIVER_LED_TOTAL 15
+  #define DRIVER_LED_TOTAL 12
   #define WS2812_BYTE_ORDER 1 //WS2812_BYTE_ORDER_GRB
 //   #define RGBLED_NUM 15
 //   #define RGBLIGHT_HUE_STEP 8
