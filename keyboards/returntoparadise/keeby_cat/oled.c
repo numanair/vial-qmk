@@ -75,43 +75,66 @@ bool key_status_kb(void);
 
 // Set OLED rotation
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-        return OLED_ROTATION_180;
+    return OLED_ROTATION_180;
     return rotation;
 }
 
-//     oled_write_P(qmk_logo, false);
-// }
-
 #include "oled_keeby_cat_logo.c"
-#include "oled_graphic_test.c"
+// #include "oled_graphic_test.c"
+
+#define _BASE       0
+#define _BROWSER    1
+#define _GAME       2
+#define _MEDIA      3
 
 bool oled_task_user(void) {
 
     // Layer Status
     switch (get_highest_layer(layer_state)) {
-        case 0:
+        case _BASE:
+            // Brightness
             // oled_write_P(PSTR("Base\n"), false);
             render_logo();
+            if(!is_oled_scrolling()){
+                oled_scroll_left();
+            }
             break;
-        case 1:
-            render_oled_test();
-            // oled_scroll_left();
+        case _BROWSER:
+            // render_oled_test();
             // oled_write_P(PSTR("Layer: "), false);
-            // oled_write_P(PSTR("Game\n"), false);
-            // key_status_kb();
-            break;
-        case 2:
-            oled_write_P(PSTR("Browser\n"), false);
+            rgb_matrix_enable_noeeprom();
+            // rgb_matrix_sethsv_noeeprom(HSV_ORANGE);
+            for (uint8_t i = 0; i < 3; i++){
+                const uint8_t led_index_L1[] = {3, 4, 11};
+                rgb_matrix_set_color(led_index_L1[i],RGB_WHITE);
+            }
+            if(is_oled_scrolling()){
+                oled_scroll_off();
+            }
+            oled_write_P(PSTR("BROWSER\n"), false);
             key_status_kb();
             break;
-        case 3:
-            oled_write_P(PSTR("Layer: "), false);
-            oled_write_P(PSTR("Media\n"), false);
+        case _GAME:
+            if(is_oled_scrolling()){
+                oled_scroll_off();
+            }
+            oled_write_P(PSTR("GAME\n"), false);
+            key_status_kb();
+            break;
+        case _MEDIA:
+            // oled_write_P(PSTR("Layer: "), false);
+            oled_write_P(PSTR("MEDIA\n"), false);
+            if(is_oled_scrolling()){
+                oled_scroll_off();
+            }
             key_status_kb();
             break;
         default:
             // Or use the write_ln shortcut over adding '\n' to the end of your string
-            oled_write_ln_P(PSTR("Undefined"), false);
+            // oled_write_ln_P(PSTR("Undefined"), false);
+            if(is_oled_scrolling()){
+                oled_scroll_off();
+            }
             key_status_kb();
     }
 
@@ -119,10 +142,10 @@ bool oled_task_user(void) {
 }
 
 bool key_status_kb(void){
-    oled_write_P(PSTR("Layer: "), false);
+    // oled_write_P(PSTR("Layer: "), false);
     // Keyboard Status Indicators
     led_t led_state = host_keyboard_led_state();
-    oled_write_P(led_state.num_lock ? PSTR("NUM ") : PSTR("    "), false);
+    oled_write_P(!led_state.num_lock ? PSTR("NUM OFF") : PSTR("    "), false);
     oled_write_P(led_state.caps_lock ? PSTR("CAP ") : PSTR("    "), false);
     oled_write_P(led_state.scroll_lock ? PSTR("SCR ") : PSTR("    "), false);
     return false;
