@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PRODUCT_ID 0xD1B2
 #define DEVICE_VER 0x0001
 #define MANUFACTURER Return to Paradise
-#define PRODUCT sick69
+#define PRODUCT SiCK-69
 
 /* key matrix size */
 #define MATRIX_ROWS 5
