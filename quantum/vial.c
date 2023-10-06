@@ -44,10 +44,6 @@ _Static_assert(VIAL_UNLOCK_NUM_KEYS < 15, "Max 15 unlock keys");
 _Static_assert(sizeof(vial_unlock_combo_rows) == sizeof(vial_unlock_combo_cols), "The number of unlock cols and rows should be the same");
 #endif
 
-#ifndef VIAL_ENCODER_KEYCODE_DELAY
-#define VIAL_ENCODER_KEYCODE_DELAY 10
-#endif
-
 #include "qmk_settings.h"
 
 #ifdef VIAL_TAP_DANCE_ENABLE
@@ -72,6 +68,12 @@ void vial_init(void) {
 #ifdef VIAL_KEY_OVERRIDE_ENABLE
     reload_key_override();
 #endif
+}
+
+__attribute__((unused)) static uint16_t vial_keycode_firewall(uint16_t in) {
+    if (in == QK_BOOT && !vial_unlocked)
+        return 0;
+    return in;
 }
 
 void vial_handle_cmd(uint8_t *msg, uint8_t length) {
@@ -117,7 +119,7 @@ void vial_handle_cmd(uint8_t *msg, uint8_t length) {
             memcpy_P(msg, &keyboard_definition[start], end - start);
             break;
         }
-#ifdef VIAL_ENCODERS_ENABLE
+#ifdef ENCODER_MAP_ENABLE
         case vial_get_encoder: {
             uint8_t layer = msg[2];
             uint8_t idx = msg[3];
@@ -130,7 +132,7 @@ void vial_handle_cmd(uint8_t *msg, uint8_t length) {
             break;
         }
         case vial_set_encoder: {
-            dynamic_keymap_set_encoder(msg[2], msg[3], msg[4], (msg[5] << 8) | msg[6]);
+            dynamic_keymap_set_encoder(msg[2], msg[3], msg[4], vial_keycode_firewall((msg[5] << 8) | msg[6]));
             break;
         }
 #endif
@@ -236,6 +238,10 @@ void vial_handle_cmd(uint8_t *msg, uint8_t length) {
                 uint8_t idx = msg[3];
                 vial_tap_dance_entry_t td;
                 memcpy(&td, &msg[4], sizeof(td));
+                td.on_tap = vial_keycode_firewall(td.on_tap);
+                td.on_hold = vial_keycode_firewall(td.on_hold);
+                td.on_double_tap = vial_keycode_firewall(td.on_double_tap);
+                td.on_tap_hold = vial_keycode_firewall(td.on_tap_hold);
                 msg[0] = dynamic_keymap_set_tap_dance(idx, &td);
                 reload_tap_dance();
                 break;
@@ -253,6 +259,7 @@ void vial_handle_cmd(uint8_t *msg, uint8_t length) {
                 uint8_t idx = msg[3];
                 vial_combo_entry_t entry;
                 memcpy(&entry, &msg[4], sizeof(entry));
+                entry.output = vial_keycode_firewall(entry.output);
                 msg[0] = dynamic_keymap_set_combo(idx, &entry);
                 reload_combo();
                 break;
@@ -270,6 +277,7 @@ void vial_handle_cmd(uint8_t *msg, uint8_t length) {
                 uint8_t idx = msg[3];
                 vial_key_override_entry_t entry;
                 memcpy(&entry, &msg[4], sizeof(entry));
+                entry.replacement = vial_keycode_firewall(entry.replacement);
                 msg[0] = dynamic_keymap_set_key_override(idx, &entry);
                 reload_key_override();
                 break;
@@ -291,6 +299,7 @@ void vial_keycode_down(uint16_t keycode) {
         register_code16(keycode);
     } else {
         action_exec((keyevent_t){
+            .type = KEY_EVENT,
             .key = (keypos_t){.row = VIAL_MATRIX_MAGIC, .col = VIAL_MATRIX_MAGIC}, .pressed = 1, .time = (timer_read() | 1) /* time should not be 0 */
         });
     }
@@ -303,6 +312,7 @@ void vial_keycode_up(uint16_t keycode) {
         unregister_code16(keycode);
     } else {
         action_exec((keyevent_t){
+            .type = KEY_EVENT,
             .key = (keypos_t){.row = VIAL_MATRIX_MAGIC, .col = VIAL_MATRIX_MAGIC}, .pressed = 0, .time = (timer_read() | 1) /* time should not be 0 */
         });
     }
@@ -313,39 +323,6 @@ void vial_keycode_tap(uint16_t keycode) {
     qs_wait_ms(QS_tap_code_delay);
     vial_keycode_up(keycode);
 }
-
-#ifdef VIAL_ENCODERS_ENABLE
-static void exec_keycode(uint16_t keycode) {
-    vial_keycode_down(keycode);
-
-#if VIAL_ENCODER_KEYCODE_DELAY > 0
-    wait_ms(VIAL_ENCODER_KEYCODE_DELAY);
-#endif
-
-    vial_keycode_up(keycode);
-}
-
-bool vial_encoder_update(uint8_t index, bool clockwise) {
-    uint16_t code;
-
-    layer_state_t layers = layer_state | default_layer_state;
-    /* check top layer first */
-    for (int8_t i = MAX_LAYER - 1; i >= 0; i--) {
-        if (layers & (1UL << i)) {
-            code = dynamic_keymap_get_encoder(i, index, clockwise);
-            if (code != KC_TRNS) {
-                exec_keycode(code);
-                return true;
-            }
-        }
-    }
-    /* fall back to layer 0 */
-    code = dynamic_keymap_get_encoder(0, index, clockwise);
-    exec_keycode(code);
-
-    return true;
-}
-#endif
 
 #ifdef VIAL_TAP_DANCE_ENABLE
 #include "process_tap_dance.h"
@@ -364,7 +341,7 @@ enum {
 static uint8_t dance_state[VIAL_TAP_DANCE_ENTRIES];
 static vial_tap_dance_entry_t td_entry;
 
-static uint8_t dance_step(qk_tap_dance_state_t *state) {
+static uint8_t dance_step(tap_dance_state_t *state) {
     if (state->count == 1) {
         if (state->interrupted || !state->pressed) return SINGLE_TAP;
         else return SINGLE_HOLD;
@@ -376,7 +353,7 @@ static uint8_t dance_step(qk_tap_dance_state_t *state) {
     return MORE_TAPS;
 }
 
-static void on_dance(qk_tap_dance_state_t *state, void *user_data) {
+static void on_dance(tap_dance_state_t *state, void *user_data) {
     uint8_t index = (uintptr_t)user_data;
     if (dynamic_keymap_get_tap_dance(index, &td_entry) != 0)
         return;
@@ -392,7 +369,7 @@ static void on_dance(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
-static void on_dance_finished(qk_tap_dance_state_t *state, void *user_data) {
+static void on_dance_finished(tap_dance_state_t *state, void *user_data) {
     uint8_t index = (uintptr_t)user_data;
     if (dynamic_keymap_get_tap_dance(index, &td_entry) != 0)
         return;
@@ -445,7 +422,7 @@ static void on_dance_finished(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
-static void on_dance_reset(qk_tap_dance_state_t *state, void *user_data) {
+static void on_dance_reset(tap_dance_state_t *state, void *user_data) {
     uint8_t index = (uintptr_t)user_data;
     if (dynamic_keymap_get_tap_dance(index, &td_entry) != 0)
         return;
@@ -498,20 +475,33 @@ static void on_dance_reset(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
-qk_tap_dance_action_t tap_dance_actions[VIAL_TAP_DANCE_ENTRIES] = { };
+tap_dance_action_t tap_dance_actions[VIAL_TAP_DANCE_ENTRIES] = { };
 
 /* Load timings from eeprom into custom_tapping_term */
 static void reload_tap_dance(void) {
     for (size_t i = 0; i < VIAL_TAP_DANCE_ENTRIES; ++i) {
-        vial_tap_dance_entry_t td;
         tap_dance_actions[i].fn.on_each_tap = on_dance;
         tap_dance_actions[i].fn.on_dance_finished = on_dance_finished;
         tap_dance_actions[i].fn.on_reset = on_dance_reset;
         tap_dance_actions[i].user_data = (void*)i;
-        if (dynamic_keymap_get_tap_dance(i, &td) == 0) {
-            tap_dance_actions[i].custom_tapping_term = td.custom_tapping_term;
-        }
     }
+}
+#endif
+
+#ifdef TAPPING_TERM_PER_KEY
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+#ifdef VIAL_TAP_DANCE_ENABLE
+    if (keycode >= QK_TAP_DANCE && keycode <= QK_TAP_DANCE_MAX) {
+        vial_tap_dance_entry_t td;
+        if (dynamic_keymap_get_tap_dance(keycode & 0xFF, &td) == 0)
+            return td.custom_tapping_term;
+    }
+#endif
+#ifdef QMK_SETTINGS
+    return qs_get_tapping_term(keycode, record);
+#else
+    return TAPPING_TERM;
+#endif
 }
 #endif
 
@@ -539,7 +529,7 @@ static void reload_combo(void) {
 #endif
 
 #ifdef VIAL_TAP_DANCE_ENABLE
-void process_tap_dance_action_on_dance_finished(qk_tap_dance_action_t *action);
+void process_tap_dance_action_on_dance_finished(tap_dance_action_t *action);
 #endif
 
 bool process_record_vial(uint16_t keycode, keyrecord_t *record) {
@@ -550,7 +540,7 @@ bool process_record_vial(uint16_t keycode, keyrecord_t *record) {
         if (dynamic_keymap_get_tap_dance(idx, &td_entry) != 0)
             return true;
 
-        qk_tap_dance_action_t *action = &tap_dance_actions[idx];
+        tap_dance_action_t *action = &tap_dance_actions[idx];
 
         /* only care about 2 possibilities here
            - tap and hold set, everything else unset: process first release early (count == 1)
