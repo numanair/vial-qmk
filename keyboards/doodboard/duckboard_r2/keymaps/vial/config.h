@@ -7,9 +7,6 @@
 #define VIAL_UNLOCK_COMBO_ROWS { 4, 4 }
 #define VIAL_UNLOCK_COMBO_COLS { 0, 4 }
 
-#define VIAL_ENCODER_DEFAULT { KC_VOLD, KC_VOLU, KC_UP,   KC_DOWN, \
-                               KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
-                               KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS  }
                                
 #undef ENCODER_RESOLUTION
 #define ENCODER_RESOLUTION 4
@@ -17,7 +14,7 @@
 #define DYNAMIC_KEYMAP_LAYER_COUNT 6
 
 #ifdef RGB_MATRIX_ENABLE
-#    define DRIVER_LED_TOTAL 8
+#    define RGB_MATRIX_LED_COUNT 8
 #    define RGB_DISABLE_WHEN_USB_SUSPENDED true 
 // RGB Matrix Animation modes. Explicitly enabled
 // For full list of effects, see:

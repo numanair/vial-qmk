@@ -22,19 +22,16 @@
 #include "eeprom.h"
 #include "action.h"
 
-#define VIAL_PROTOCOL_VERSION ((uint32_t)0x00000005)
+#define VIAL_PROTOCOL_VERSION ((uint32_t)0x00000006)
 #define VIAL_RAW_EPSIZE 32
 
 void vial_init(void);
 void vial_handle_cmd(uint8_t *data, uint8_t length);
 bool process_record_vial(uint16_t keycode, keyrecord_t *record);
 
-#ifdef VIAL_ENCODERS_ENABLE
-bool vial_encoder_update(uint8_t index, bool clockwise);
-#endif
-
 extern int vial_unlocked;
 extern int vial_unlock_in_progress;
+extern uint16_t g_vial_magic_keycode_override;
 
 enum {
     vial_get_keyboard_id = 0x00,
@@ -73,7 +70,7 @@ void vial_keycode_tap(uint16_t keycode);
 
 /* Fake position in keyboard matrix, can't use 255 as that is immediately rejected by IS_NOEVENT
    used to send arbitrary keycodes thru process_record_quantum_helper */
-#define VIAL_MATRIX_MAGIC 254
+#define VIAL_MATRIX_MAGIC 240
 
 
 #ifdef TAP_DANCE_ENABLE
