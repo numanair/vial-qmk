@@ -27,7 +27,13 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     return rotation;
 }
 
-#    include "oled_keeby_cat_logo.c"
+// #    include "rgb_matrix_layers.c"
+#    include "oled_graphic_layer_02_game.c"
+#    include "oled_graphic_layer_01_media.c"
+#    include "oled_graphic_layer_03_web.c"
+#    include "oled_graphic_layer_04_numpad.c"
+
+// #    include "oled_keeby_cat_logo.c"
 // #include "oled_graphic_test.c"
 
 #    define _BASE 0
@@ -41,10 +47,11 @@ bool oled_task_user(void) {
         case _BASE:
             // Brightness
             // oled_write_P(PSTR("Base\n"), false);
-            render_logo();
-            if (!is_oled_scrolling()) {
-                oled_scroll_left();
-            }
+            // render_logo();
+            // if (!is_oled_scrolling()) {
+            //     oled_scroll_left();
+            // }
+            render_oled_layer_04_numpad();
             break;
         case _BROWSER:
             // render_oled_test();
@@ -63,29 +70,35 @@ bool oled_task_user(void) {
             rgb_matrix_set_color(1, RGB_ORANGE);
             rgb_matrix_set_color(9, RGB_BLUE);
 
-            if (is_oled_scrolling()) {
-                oled_scroll_off();
-            }
-            oled_write_P(PSTR("BROWSER\n"), false);
-            key_status_kb();
+            render_oled_layer_03_web();
+
+            // if (is_oled_scrolling()) {
+            //     oled_scroll_off();
+            // }
+            // oled_write_P(PSTR("BROWSER\n"), false);
+            // key_status_kb();
             break;
         case _GAME:
-            if (is_oled_scrolling()) {
-                oled_scroll_off();
-            }
-            oled_write_P(PSTR("GAME\n"), false);
-            key_status_kb();
+            // if (is_oled_scrolling()) {
+            //     oled_scroll_off();
+            // }
 
-            rgb_matrix_set_color(0,RGB_ORANGE);
+            // oled_write_P(PSTR("GAME\n"), false);
+            // key_status_kb();
+            render_oled_layer_02_game();
+
+            rgb_matrix_set_color(0, RGB_ORANGE);
 
             break;
         case _MEDIA:
+            render_oled_layer_01_media();
+
             // oled_write_P(PSTR("Layer: "), false);
-            oled_write_P(PSTR("MEDIA\n"), false);
-            if (is_oled_scrolling()) {
-                oled_scroll_off();
-            }
-            key_status_kb();
+            // oled_write_P(PSTR("MEDIA\n"), false);
+            // if (is_oled_scrolling()) {
+            //     oled_scroll_off();
+            // }
+            // key_status_kb();
             break;
         default:
             // Or use the write_ln shortcut over adding '\n' to the end of your string
