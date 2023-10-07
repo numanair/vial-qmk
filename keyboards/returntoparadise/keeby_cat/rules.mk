@@ -2,9 +2,10 @@
 MCU = STM32F103
 # Bootloader for 64k STM32
 # BOOTLOADER = stm32duino
+BOOTLOADER = stm32duino
 
 # Custom loader configuration for 128k STM32
-MCU_LDSCRIPT = STM32F103xB_stm32duino_bootloader
+MCU_LDSCRIPT = STM32F103xB
 OPT_DEFS += -DBOOTLOADER_STM32DUINO
 BOARD = STM32_F103_STM32DUINO
 BOOTLOADER_TYPE = stm32duino
@@ -29,12 +30,13 @@ AUDIO_ENABLE = no           # Audio output on port C6
 FAUXCLICKY_ENABLE = no      # Use buzzer to emulate clicky switches
 RGBLIGHT_ENABLE = no        # RGB underglow
 RGB_MATRIX_ENABLE = yes     # RGB key lights
-RGB_MATRIX_DRIVER = WS2812  # RGB LED driver
+RGB_MATRIX_DRIVER = ws2812  # RGB LED driver
 TAP_DANCE_ENABLE = yes
 ENCODER_ENABLE = yes
 OLED_ENABLE = yes           # SSD1306 128x32
 OLED_DRIVER_ENABLE = yes
-OLED_DRIVER = SSD1306
+OLED_DRIVER = ssd1306
+VIRTSER_ENABLE = no
 
 # Enter lower-power sleep mode when on the ChibiOS idle thread
 OPT_DEFS += -DCORTEX_ENABLE_WFI_IDLE=TRUE
