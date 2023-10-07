@@ -4,6 +4,28 @@
 
 #define ____ KC_TRNS
 
+// Auto populate Tap Dance functions
+void keyboard_post_init_user(void) {
+    vial_tap_dance_entry_t td0 = { KC_KP_ENTER,
+                                  KC_NUM_LOCK,
+                                  KC_NO,
+                                  KC_NO,
+                                  TAPPING_TERM };
+    vial_tap_dance_entry_t td1 = { KC_BTN1,
+                                  KC_BTN3,
+                                  KC_NO,
+                                  KC_NO,
+                                  TAPPING_TERM };
+    vial_tap_dance_entry_t td2 = { KC_C,
+                                  LSFT(KC_C),
+                                  KC_NO,
+                                  KC_NO,
+                                  TAPPING_TERM };
+    dynamic_keymap_set_tap_dance(0, &td0); // the first value corresponds to the TD(i) slot
+    dynamic_keymap_set_tap_dance(1, &td1);
+    dynamic_keymap_set_tap_dance(2, &td2);
+}
+
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
     [0] =   { ENCODER_CCW_CW(TO(3), TO(1)) },
