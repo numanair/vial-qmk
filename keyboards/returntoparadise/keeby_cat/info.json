@@ -1,7 +1,13 @@
 {
-    "keyboard_name": "keeby cat",
-    "url": "https://github.com/numanair/keeby-cat",
+    "keyboard_name": "Keeby Cat",
+    "manufacturer": "Return to Paradise",
     "maintainer": "numanair",
+    "url": "https://github.com/numanair/keeby-cat",
+    "usb": {
+        "vid": "0xFEED",
+        "pid": "0xD1B1",
+        "device_version": "0.0.1"
+    },
     "layouts": {
         "LAYOUT": {
             "layout": [{"x":0, "y":0}, {"x":0, "y":1.25}, {"x":1, "y":1.25}, {"x":2, "y":1.25}, {"x":0, "y":2.25}, {"x":1, "y":2.25}, {"x":2, "y":2.25}, {"x":0, "y":3.25}, {"x":1, "y":3.25}, {"x":2, "y":3.25}, {"x":0, "y":4.25}, {"x":1, "y":4.25}, {"x":2, "y":4.25}]
