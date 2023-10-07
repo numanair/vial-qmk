@@ -1,19 +1,18 @@
 # MCU name
 MCU = STM32F103
-# Bootloader for 64k STM32
-# BOOTLOADER = stm32duino
+# Bootloader for STM32
 BOOTLOADER = stm32duino
-
-# Custom loader configuration for 128k STM32
+# Configuration for 128k STM32
 MCU_LDSCRIPT = STM32F103xB
-OPT_DEFS += -DBOOTLOADER_STM32DUINO
-BOARD = STM32_F103_STM32DUINO
-BOOTLOADER_TYPE = stm32duino
-DFU_ARGS = -d 1EAF:0003 -a 2 -R
-DFU_SUFFIX_ARGS = -v 1EAF -p 0003
+
+# These should be already set in chibios/bootloader.mk
+# BOARD = STM32_F103_STM32DUINO
+# OPT_DEFS += -DBOOTLOADER_STM32DUINO
+# DFU_ARGS = -d 1EAF:0003 -a 2 -R
+# DFU_SUFFIX_ARGS ?= -v 1EAF -p 0003
 
 # Build Options
-
+# Some options have moved to info.json
 BOOTMAGIC_ENABLE = no
 MOUSEKEY_ENABLE = yes       # Mouse keys
 EXTRAKEY_ENABLE = yes       # Audio control and System control
