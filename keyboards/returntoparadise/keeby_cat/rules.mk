@@ -22,7 +22,7 @@ COMMAND_ENABLE = no         # Commands for debug and configuration
 # Do not enable SLEEP_LED_ENABLE. it uses the same timer as BACKLIGHT_ENABLE
 SLEEP_LED_ENABLE = no       # Breathing sleep LED during USB suspend
 # if this doesn't work, see here: https://github.com/tmk/tmk_keyboard/wiki/FAQ#nkro-doesnt-work
-NKRO_ENABLE = yes           # USB Nkey Rollover
+NKRO_ENABLE = no            # USB Nkey Rollover
 MIDI_ENABLE = yes           # MIDI support
 UNICODE_ENABLE = no         # Unicode
 BLUETOOTH_ENABLE = no       # Enable Bluetooth with the Adafruit EZ-Key HID
@@ -32,11 +32,9 @@ RGBLIGHT_ENABLE = no        # RGB underglow
 RGB_MATRIX_ENABLE = yes     # RGB key lights
 RGB_MATRIX_DRIVER = ws2812  # RGB LED driver
 TAP_DANCE_ENABLE = yes
-ENCODER_ENABLE = yes
 OLED_ENABLE = yes           # SSD1306 128x32
 OLED_DRIVER_ENABLE = yes
 OLED_DRIVER = ssd1306
-VIRTSER_ENABLE = no
 
 # Enter lower-power sleep mode when on the ChibiOS idle thread
 OPT_DEFS += -DCORTEX_ENABLE_WFI_IDLE=TRUE

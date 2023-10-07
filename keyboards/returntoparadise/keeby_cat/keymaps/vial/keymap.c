@@ -4,6 +4,15 @@
 
 #define ____ KC_TRNS
 
+#if defined(ENCODER_MAP_ENABLE)
+const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
+    [0] =   { ENCODER_CCW_CW(TO(3), TO(1)) },
+    [1] =   { ENCODER_CCW_CW(TO(0), TO(2)) },
+    [2] =   { ENCODER_CCW_CW(TO(1), TO(3)) },
+    [3] =   { ENCODER_CCW_CW(TO(2), TO(0)) }
+};
+#endif
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // Base (numpad)
     [0] = LAYOUT(
@@ -16,9 +25,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // Browser / RES
     [1] = LAYOUT(
         TO(2),
-        KC_J,        KC_X, KC_K,
+        KC_J,    KC_X, KC_K,
         KC_LBRC, KC_X, KC_RBRC,
-        KC_Z,        KC_C, KC_A,
+        KC_Z,    KC_C, KC_A,
         LCTL(S(KC_TAB)), LCTL(KC_W), LCTL(KC_TAB)
     ),
     // Misc

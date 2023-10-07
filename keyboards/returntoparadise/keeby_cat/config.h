@@ -2,13 +2,6 @@
 
 #pragma once
 
-/* USB Device descriptor parameter */
-// #define VENDOR_ID       0xFEED
-// #define PRODUCT_ID      0xD1B1
-// #define DEVICE_VER      0x0001
-// #define MANUFACTURER    Return to Paradise
-// #define PRODUCT         Keeby Cat
-
 /* key matrix size */
 #define MATRIX_ROWS 1
 #define MATRIX_COLS 13
@@ -19,18 +12,13 @@
 
 #define TAPPING_TOGGLE 2
 
-#define ENCODERS_PAD_A { B11 }
-#define ENCODERS_PAD_B { B10 }
-// #define ENCODER_RESOLUTIONS { 2 }
-// #define ENCODER_DIRECTION_FLIP
-
 #define MIDI_ADVANCED
 
 #define WS2812_DI_PIN B9
 #ifdef WS2812_DI_PIN
 //   #define LED_MATRIX_CENTER { 112, 32 }
   #define DRIVER_LED_TOTAL 12
-  #define WS2812_BYTE_ORDER 1 //WS2812_BYTE_ORDER_GRB
+  #define WS2812_BYTE_ORDER 1 // WS2812_BYTE_ORDER_GRB
   #define RGBLED_NUM 12
   #define RGBLIGHT_HUE_STEP 24
   #define RGBLIGHT_SAT_STEP 24
