@@ -14,23 +14,26 @@ MCU_LDSCRIPT = STM32F103xB
 # Build Options
 # Some options have moved to info.json
 BOOTMAGIC_ENABLE = no
+# These options may require more USB endpoints
+CONSOLE_ENABLE = no         # Console for debug
+MIDI_ENABLE = yes           # MIDI support
+# These ones are combined into a single endpoint
 MOUSEKEY_ENABLE = yes       # Mouse keys
 EXTRAKEY_ENABLE = yes       # Audio control and System control
-CONSOLE_ENABLE = no         # Console for debug
+NKRO_ENABLE = no            # USB Nkey Rollover, 6KRO when off. Must be turned on with bound key.
+# Settings to reduce endpoint usage
+KEYBOARD_SHARED_EP = yes    # Enable to combine keyboard endpoints. May break boot/bios keyboard usage.
+MOUSE_SHARED_EP = yes       # Enable to combine mouse endpoints. May break bios mouse usage.
+
 COMMAND_ENABLE = no         # Commands for debug and configuration
 # Do not enable SLEEP_LED_ENABLE. it uses the same timer as BACKLIGHT_ENABLE
 SLEEP_LED_ENABLE = no       # Breathing sleep LED during USB suspend
 # if this doesn't work, see here: https://github.com/tmk/tmk_keyboard/wiki/FAQ#nkro-doesnt-work
-NKRO_ENABLE = no            # USB Nkey Rollover
-MIDI_ENABLE = yes           # MIDI support
-UNICODE_ENABLE = no         # Unicode
-BLUETOOTH_ENABLE = no       # Enable Bluetooth with the Adafruit EZ-Key HID
-AUDIO_ENABLE = no           # Audio output on port C6
-FAUXCLICKY_ENABLE = no      # Use buzzer to emulate clicky switches
+UNICODE_ENABLE = yes        # Unicode
+TAP_DANCE_ENABLE = yes
 RGBLIGHT_ENABLE = no        # RGB underglow
 RGB_MATRIX_ENABLE = yes     # RGB key lights
 RGB_MATRIX_DRIVER = ws2812  # RGB LED driver
-TAP_DANCE_ENABLE = yes
 OLED_ENABLE = yes           # SSD1306 128x32
 OLED_DRIVER_ENABLE = yes
 OLED_DRIVER = ssd1306
