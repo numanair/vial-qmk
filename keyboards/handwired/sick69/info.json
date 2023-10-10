@@ -2,6 +2,12 @@
     "keyboard_name": "SiCK-69",
     "url": "",
     "maintainer": "numanair",
+    "manufacturer": "Return to Paradise",
+    "usb": {
+        "vid": "0xFEED",
+        "pid": "0xD1B2",
+        "device_version": "0.0.2"
+    },
     "layouts": {
         "LAYOUT_65_ansi": {
             "layout": [
