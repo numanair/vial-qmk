@@ -78,6 +78,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define NO_PRINT
 
 /* disable action features */
+/* https://github.com/qmk/qmk_firmware/blob/master/docs/config_options.md#features-that-can-be-disabled */
 //#define NO_ACTION_LAYER
 //#define NO_ACTION_TAPPING
 //#define NO_ACTION_ONESHOT
