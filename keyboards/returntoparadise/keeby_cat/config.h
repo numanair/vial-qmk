@@ -14,6 +14,8 @@
 
 #define MIDI_ADVANCED
 
+#define OLED_BRIGHTNESS 15 // 0 to 255
+
 #define WS2812_DI_PIN B9
 #ifdef WS2812_DI_PIN
 //   #define LED_MATRIX_CENTER { 112, 32 }
