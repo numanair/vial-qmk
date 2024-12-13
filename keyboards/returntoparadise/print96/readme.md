@@ -18,7 +18,7 @@ Flashing example for this keyboard:
 
 or using dfu-util
 
-    dfu-util.exe -d 1eaf:0003 -a 2 -R -D "Z:\source\vial-qmk\handwired_print96_default.bin"
+    dfu-util.exe -d 1eaf:0003 -a 2 -R -D "C:\source\vial-qmk\returntoparadise_print96_vial.bin"
 
 See the [build environment setup](https://docs.qmk.fm/#/getting_started_build_tools) and the [make instructions](https://docs.qmk.fm/#/getting_started_make_guide) for more information. Brand new to QMK? Start with our [Complete Newbs Guide](https://docs.qmk.fm/#/newbs).
 
