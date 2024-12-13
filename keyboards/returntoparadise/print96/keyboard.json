@@ -13,31 +13,62 @@
         "extrakey": true,
         "mousekey": true,
         "nkro": true,
-        "rgb_matrix": false
+        "rgb_matrix": true
     },
     "matrix_pins": {
         "cols": ["A0", "C15", "C14", "C13", "B9", "B8", "B7", "B6", "B5", "B4", "B3", "A15", "A10", "A9", "A8", "B15", "B14", "B13", "B12"],
         "rows": ["A6", "A5", "A4", "A3", "A2", "A1"]
     },
     "rgblight": {
-        "animations": {
-            "alternating": true,
-            "static_gradient": true,
-            "breathing": true
-        },
-        "layers": {
-            "enabled": true,
-            "override_rgb": false
+        "default": {
+            "animation": "multisplash",
+            "hue": 152,
+            "sat": 232,
+            "val": 80,
+            "speed": 5
         },
         "brightness_steps": 12,
         "led_count": 3,
-        "saturation_steps": 8
+        "saturation_steps": 8,
+        "driver": "ws2812"
     },
-    "ws2812":{
+    "rgb_matrix": {
+        "led_count": 3,
+        "animations": {
+            "breathing": true,
+            "cycle_all": true,
+            "cycle_left_right": true,
+            "cycle_out_in": true,
+            "cycle_out_in_dual": true,
+            "cycle_pinwheel": true,
+            "dual_beacon": true,
+            "rainbow_beacon": true,
+            "typing_heatmap": true,
+            "solid_reactive_simple": true,
+            "solid_reactive": true,
+            "multisplash": true
+        },
+        "default": {
+            "animation": "multisplash",
+            "hue": 152,
+            "sat": 232,
+            "val": 80,
+            "speed": 5
+        },
+        "driver": "ws2812",
+        "layout":[
+            { "flags": 4, "matrix": [0, 0], "x": 10, "y":0 },
+            { "flags": 4, "matrix": [1, 13], "x": 20, "y":0 },
+            { "flags": 4, "matrix": [5, 18], "x": 40, "y":0 }
+        ],
+        "sleep": true,
+        "timeout ": 5
+    },
+    "ws2812": {
         "pin": "A7"
     },
     "indicators": {
-        "caps_lock": "B2"
+        "scroll_lock": "B2"
     },
     "processor": "STM32F103",
     "url": "",
