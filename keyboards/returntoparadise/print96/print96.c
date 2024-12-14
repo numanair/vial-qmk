@@ -17,6 +17,27 @@ bool rgb_matrix_indicators_kb(void) {
     {
         rgb_matrix_set_color(1, 8, 78, 23);
     }
+
+    switch(get_highest_layer(layer_state|default_layer_state)) {
+        case 5:
+            rgb_matrix_set_color(2, RGB_MAGENTA);
+            break;
+        case 4:
+            rgb_matrix_set_color(2, RGB_ORANGE);
+            break;
+        case 3:
+            rgb_matrix_set_color(2, RGB_GREEN);
+            break;
+        case 2:
+            rgb_matrix_set_color(2, RGB_BLUE);
+            break;
+        case 1:
+            rgb_matrix_set_color(2, RGB_YELLOW);
+            break;
+        default:
+            break;
+    }
+
     return true;
 }
 
