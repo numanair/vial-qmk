@@ -34,10 +34,10 @@ bool rgb_matrix_indicators_kb(void) {
             layer_color = (HSV){HSV_ORANGE};
             break;
         case 3:
-            layer_color = (HSV){HSV_GREEN};
+            layer_color = (HSV){HSV_BLUE};
             break;
         case 2:
-            layer_color = (HSV){HSV_BLUE};
+            layer_color = (HSV){HSV_GREEN};
             break;
         case 1:
             layer_color = (HSV){HSV_YELLOW};
@@ -48,7 +48,7 @@ bool rgb_matrix_indicators_kb(void) {
     layer_color.v = brightness_plus_step();
     if(get_highest_layer(layer_state|default_layer_state) != 0){
         RGB rgb = hsv_to_rgb(layer_color); // rgb_t
-        rgb_matrix_set_color(LAYER_LED_INDEX, rgb.r, rgb.b, rgb.g);
+        rgb_matrix_set_color(LAYER_LED_INDEX, rgb.r, rgb.g, rgb.b);
     }
 
     return true;
