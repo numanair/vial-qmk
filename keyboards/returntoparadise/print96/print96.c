@@ -14,24 +14,47 @@
 #define NUM_LOCK_MAX_BRIGHTNESS RGB_MATRIX_MAXIMUM_BRIGHTNESS
 
 bool rgb_matrix_indicators_kb(void) {
-    if (host_keyboard_led_state().caps_lock) {
-        HSV indicator_color = {106, 250, brightness_plus_step()};
+    if(host_keyboard_led_state().caps_lock) {
+        HSV indicator_color = {0, 250, brightness_plus_step()};
+        if(IS_LAYER_ON(1)) {
+            // caps and game layer active
+            indicator_color.h = 94;
+            indicator_color.s = 255;
+        }
+        else {
+            // just capslock
+            indicator_color.h = 150;
+            indicator_color.s = 225;
+        }
         RGB rgb = hsv_to_rgb(indicator_color);
         rgb_matrix_set_color(CAPS_LOCK_LED_INDEX, rgb.r, rgb.g, rgb.b);
     }
+    else {
+        if(IS_LAYER_ON(1)) {
+            // only game layer active
+            HSV indicator_color = {0, 250, brightness_plus_step()};
+            indicator_color.h = 60;
+            indicator_color.s = 205;
+            RGB rgb = hsv_to_rgb(indicator_color);
+            rgb_matrix_set_color(CAPS_LOCK_LED_INDEX, rgb.r, rgb.g, rgb.b);
+        }
+    }
+
     if (!host_keyboard_led_state().num_lock) { // inverted numlock light
-        HSV indicator_color = {106, 250, brightness_plus_step()};
+        HSV indicator_color = {96, 240, brightness_plus_step()};
         RGB rgb = hsv_to_rgb(indicator_color);
         rgb_matrix_set_color(NUM_LOCK_LED_INDEX, rgb.r, rgb.g, rgb.b);
     }
 
-    HSV layer_color = {HSV_RED}; // hsv_t upcoming change: https://github.com/qmk/qmk_firmware/pull/24471
-    switch(get_highest_layer(layer_state|default_layer_state)) {
+    uint8_t combined_state = layer_state | default_layer_state;
+    HSV layer_color = {HSV_TEAL}; // color for layer 2 when gaming layer active
+    // hsv_t upcoming change: https://github.com/qmk/qmk_firmware/pull/24471
+    switch(get_highest_layer(combined_state)) {
         case 5:
-            layer_color = (HSV){HSV_MAGENTA};
+            layer_color = (HSV){HSV_RED};
             break;
         case 4:
-            layer_color = (HSV){HSV_ORANGE};
+            layer_color = (HSV){HSV_MAGENTA};
             break;
         case 3:
             layer_color = (HSV){HSV_BLUE};
@@ -40,13 +63,12 @@ bool rgb_matrix_indicators_kb(void) {
             layer_color = (HSV){HSV_GREEN};
             break;
         case 1:
-            layer_color = (HSV){HSV_YELLOW};
             break;
         default:
             break;
     }
     layer_color.v = brightness_plus_step();
-    if(get_highest_layer(layer_state|default_layer_state) != 0){
+    if(get_highest_layer(layer_state|default_layer_state) > 1){
         RGB rgb = hsv_to_rgb(layer_color); // rgb_t
         rgb_matrix_set_color(LAYER_LED_INDEX, rgb.r, rgb.g, rgb.b);
     }
