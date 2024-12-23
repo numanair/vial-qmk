@@ -4,13 +4,25 @@
 #include "quantum.h"
 #include "print96.h"
 
+// Mouse key speed and acceleration.
+#undef MOUSEKEY_DELAY
+#define MOUSEKEY_DELAY          0
+#undef MOUSEKEY_INTERVAL
+#define MOUSEKEY_INTERVAL       16
+#undef MOUSEKEY_WHEEL_DELAY
+#define MOUSEKEY_WHEEL_DELAY    0
+#undef MOUSEKEY_MAX_SPEED
+#define MOUSEKEY_MAX_SPEED      6
+#undef MOUSEKEY_TIME_TO_MAX
+#define MOUSEKEY_TIME_TO_MAX    64
+#define MK_KINETIC_SPEED 6
+
 #if defined(RGB_MATRIX_ENABLE)
 
 #define CAPS_LOCK_LED_INDEX 1
 #define NUM_LOCK_LED_INDEX 0
 #define LAYER_LED_INDEX 2
-
-#define CAPS_LOCK_MAX_BRIGHTNESS RGB_MATRIX_MAXIMUM_BRIGHTNESS
+#define CAPS_LOCK_MAX_BRIGHTNESS     RGB_MATRIX_MAXIMUM_BRIGHTNESS
 #define NUM_LOCK_MAX_BRIGHTNESS RGB_MATRIX_MAXIMUM_BRIGHTNESS
 
 bool rgb_matrix_indicators_kb(void) {
@@ -23,7 +35,7 @@ bool rgb_matrix_indicators_kb(void) {
         }
         else {
             // just capslock
-            indicator_color.h = 150;
+            indicator_color.h = 155;
             indicator_color.s = 225;
         }
         RGB rgb = hsv_to_rgb(indicator_color);
