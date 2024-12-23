@@ -28,7 +28,7 @@
             "hue": 152,
             "sat": 232,
             "val": 80,
-            "speed": 1
+            "speed": 40
         },
         "brightness_steps": 12,
         "led_count": 3,
