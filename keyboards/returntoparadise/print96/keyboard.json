@@ -8,7 +8,7 @@
     "diode_direction": "COL2ROW",
     "features": {
         "bootmagic": true,
-        "command": false,
+        "command": true,
         "console": false,
         "extrakey": true,
         "mousekey": true,
@@ -57,7 +57,7 @@
             "hue": 152,
             "sat": 232,
             "val": 80,
-            "speed": 1
+            "speed": 40
         },
         "driver": "ws2812",
         "layout":[
