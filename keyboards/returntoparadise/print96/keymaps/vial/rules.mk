@@ -1,7 +1,7 @@
 VIA_ENABLE = yes
 VIAL_ENABLE = yes
 
-VIAL_INSECURE = yes
+# VIAL_INSECURE = yes
 
 VIALRGB_ENABLE = yes
 RGB_MATRIX_ENABLE = yes     # RGB key lights
