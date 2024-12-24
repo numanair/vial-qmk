@@ -80,7 +80,7 @@
         "device_version": "1.0.0",
         "pid": "0xD1B9",
         "vid": "0xFEED",
-        "force_nkro": true,
+        "force_nkro": false,
         "polling_interval": 2
     },
     "layouts": {

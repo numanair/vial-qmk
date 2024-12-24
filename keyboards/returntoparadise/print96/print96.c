@@ -54,8 +54,18 @@ bool rgb_matrix_indicators_kb(void) {
 
     if (!host_keyboard_led_state().num_lock) { // inverted numlock light
         HSV indicator_color = {96, 240, brightness_plus_step()};
+        if(!keymap_config.nkro) { // nkro off & numlock off (light on)
+            indicator_color = (HSV){200, 230, brightness_plus_step()};
+        }
         RGB rgb = hsv_to_rgb(indicator_color);
         rgb_matrix_set_color(NUM_LOCK_LED_INDEX, rgb.r, rgb.g, rgb.b);
+    }
+    else { //numlock light is off
+        if (!keymap_config.nkro) {
+            HSV indicator_color = {250, 224, brightness_plus_step()};
+            RGB rgb = hsv_to_rgb(indicator_color);
+            rgb_matrix_set_color(NUM_LOCK_LED_INDEX, rgb.r, rgb.g, rgb.b);
+        }
     }
 
     uint8_t combined_state = layer_state | default_layer_state;
