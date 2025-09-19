@@ -20,5 +20,8 @@
         "rotary": [
           { "pin_a": "B11", "pin_b": "B10", "resolution": 4 }
         ]
-      }
+    },
+      "dynamic_keymap": {
+        "layer_count": 6
+    }
 }
